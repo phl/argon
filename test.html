@@ -1,0 +1,54 @@
+<html>
+<head>
+<link rel="stylesheet" href="lib/codemirror.css">
+<link rel="stylesheet" href="theme/argon.css">
+<link rel="stylesheet" href="addon/hint/show-hint.css">
+<style type="text/css">
+.CodeMirror {
+  height: auto;
+  border: 1px solid grey;
+}
+.CodeMirror-scroll {
+  height: auto;
+  max-height: 100px;
+}
+</style>
+<script src="lib/codemirror.js"></script>
+<script src="mode/argon/argon.js"></script>
+<script src="addon/edit/closebrackets-argon.js"></script>
+<script src="addon/edit/matchbrackets.js"></script>
+<script src="addon/hint/show-hint.js"></script>
+<script type="text/javascript">
+
+window.onload = function() {
+  var argonOps = ["help","plot","filter","file","equals","greaterThan","lessThan","timePivot","group","eventID.node","eventID.time" ];
+  var argonKeywords = [ "now","today","yesterday","NULL","INTEGER","DOUBLE","LABEL","STRING","TIME"];  
+
+  CodeMirror.registerHelper("hintWords", "argon", argonOps.concat(argonKeywords));
+var myTextarea = document.getElementsByTagName('textarea')[0];
+
+editor = CodeMirror.fromTextArea(myTextarea, {
+  mode: "argon",
+  theme: "argon",
+  matchBrackets: true,
+  autoCloseBrackets: { pairs: "()\"\"", explode: "()"},
+  extraKeys: {
+  "Enter": function(cm) { cm.save(); alert(myTextarea.value); },
+  "Shift-Enter": "newlineAndIndent",
+  "Ctrl-Space": "autocomplete",
+  "Tab": "autocomplete",
+
+  },
+  argonOps: argonOps,
+  argonKeywords: argonKeywords
+});
+}
+</script>
+</head>
+<body>
+<div>
+<textarea></textarea>
+</div>
+<div style="background: grey; height: 100%"></div>
+</body>
+</html>
